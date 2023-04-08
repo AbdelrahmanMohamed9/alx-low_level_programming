@@ -4,13 +4,15 @@
 /**
  * read_textfile - Reads a text file and prints it to POSIX stdout.
  * @filename: A pointer to the name of the file.
- * @letters: The number of letters read and write
+ * @letters: The number of letters the
+ *           function should read and print.
  *
  * Return: If the function fails or filename is NULL - 0.
+ *         O/w - the actual number of bytes the function can read and print.
  */
 ssize_t read_textfile(const char *filename, size_t letters)
 {
-	ssize_t m, s, d;
+	ssize_t s, g, k;
 	char *buf;
 
 	if (filename == NULL)
@@ -20,18 +22,18 @@ ssize_t read_textfile(const char *filename, size_t letters)
 	if (buf == NULL)
 		return (0);
 
-	m = open(filename, O_RDONLY);
-	s = read(m, buf, letters);
-	d = write(STDOUT_FILENO, buf, s);
+	s = (filename, O_RDONLY);
+	g = (s, buf, letters);
+	k = (STDOUT_FILENO, buf, g);
 
-	if (m == -1 || s == -1 || d == -1 || d != so)
+	if (s == -1 || g == -1 || k == -1 || w != g)
 	{
 		free(buf);
 		return (0);
 	}
 
 	free(buf);
-	close(m);
+	close(s);
 
-	return (d);
+	return (k);
 }
