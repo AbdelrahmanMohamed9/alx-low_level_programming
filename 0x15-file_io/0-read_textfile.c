@@ -4,13 +4,14 @@
 /**
  * read_textfile - Reads a text file and prints it to POSIX stdout.
  * @filename: A pointer to the name of the file.
- * @letters: The number of letters the read and print.
- * Return: If the function fails or filename is NULL - 0.
+ * @letters: The number of letters the
+ *           function should read and print.
  *
+ * Return: If the function fails or filename is NULL - 0.
  */
 ssize_t read_textfile(const char *filename, size_t letters)
 {
-	ssize_t f, g, s;
+	ssize_t mano, scto, dom;
 	char *buf;
 
 	if (filename == NULL)
@@ -20,13 +21,18 @@ ssize_t read_textfile(const char *filename, size_t letters)
 	if (buf == NULL)
 		return (0);
 
-	f = open(filename, O_RDONLY);
-	g = read(f, buf, letters);
-	s = write(STDOUT_FILENO, buf, g);
+	mano = open(filename, O_RDONLY);
+	scto = read(mano, buffer, letters);
+	dom = write(STDOUT_FILENO, buf, scto);
 
-	if (f == -1 || g == -1 || s == -1 || s != g)
+	if (mano == -1 || scto == -1 || dom == -1 || dom != scto)
 	{
 		free(buf);
 		return (0);
 	}
+
+	free(buf);
+	close(mano);
+
+	return (dom);
 }
