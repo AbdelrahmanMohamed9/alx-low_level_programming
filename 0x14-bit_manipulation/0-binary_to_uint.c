@@ -1,4 +1,3 @@
-Copy code
 #include "main.h"
 
 /**
@@ -9,25 +8,16 @@ Copy code
  */
 unsigned int binary_to_uint(const char *b)
 {
-	unsigned int result = 0;
-	int i = 0;
+	int m;
+	unsigned int x = 0;
 
-	if (b == NULL)
-	return (0);
-
-	while (b[i] != '\0')
-	{
-	if (b[i] == '0' || b[i] == '1')
-	{
-		result = result * 2 + (b[i] - '0');
-	}
-		else
-	{
+	if (!b)
 		return (0);
+	for (m = 0; b[m]; m++)
+	{
+		if (b[m] < '0' || b[m] > '1')
+			return (0);
+		x = 2 * x + (b[m] - '0');
 	}
-
-		i++;
-	}
-
-	return (result);
+	return (x);
 }
