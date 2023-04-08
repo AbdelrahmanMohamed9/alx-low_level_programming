@@ -2,49 +2,47 @@
 #include <stdlib.h>
 
 /**
- * read_textfile - reads a text file and prints it to the POSIX standard output
- * @filename: the name of the file to read
- * @letters: the number of letters to read and print
+ * read_textfile - Reads text file and prints it to POSIX stdout.
+ * @filename: A pointer to the name of the file.
+ * @letters: The number of letters the
+ *           function should read and print.
  *
- * Return: the actual number of letters read and printed
+ * Return: If the function fails or filename is NULL - 0.
+ *         O/w - the actual number of bytes the function can read and print.
  */
 ssize_t read_textfile(const char *filename, size_t letters)
 {
-	ssize_t num_read, num_written;
-	FILE *file;
-	char *buf;
+	FILE *fp;
+	char *buffer;
+	ssize_t read_count;
 
 	if (filename == NULL)
 	return (0);
 
-	file = fopen(filename, "r");
-	if (file == NULL)
+	fp = fopen(filename, "r");
+	if (fp == NULL)
 	return (0);
 
-	buf = malloc(sizeof(char) * letters);
-	if (buf == NULL)
+	buffer = malloc(sizeof(char) * letters);
+	if (buffer == NULL)
 	{
-	fclose(file);
-	return (0);
+		fclose(fp);
+		return (0);
 	}
 
-	num_read = fread(buf, sizeof(char), letters, file);
-	if (num_read == 0)
+	read_count = fread(buffer, sizeof(char), letters, fp);
+	if (read_count == -1)
 	{
-	free(buf);
-	fclose(file);
-	return (0);
+		free(buffer);
+		fclose(fp);
+		return (0);
 	}
 
-	num_written = fwrite(buf, sizeof(char), num_read, stdout);
-	if (num_written == 0 || num_written != num_read)
-	{
-	free(buf);
-	fclose(file);
-	return (0);
-	}
 
-	free(buf);
-	fclose(file);
-	return (num_written);
+	fwrite(buffer, sizeof(char), read_count, stdout);
+
+	free(buffer);
+	fclose(fp);
+
+	return (read_count);
 }
