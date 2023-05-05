@@ -7,18 +7,8 @@
 
 void print_binary(unsigned long int n)
 {
-	int f;
-	int bits = sizeof(unsigned long int) * 8;
+	if (n > 1)
+		print_binary(n >> 1);
 
-	for (f = bits - 1; f >= 0; f--)
-	{
-		if ((n >> f) & 1)
-		break;
-	}
-
-	while (f >= 0)
-	{
-		_putchar((n >> f) & 1 ? '1' : '0');
-		f--;
-	}
+	_putchar((n & 1) + '0');
 }
