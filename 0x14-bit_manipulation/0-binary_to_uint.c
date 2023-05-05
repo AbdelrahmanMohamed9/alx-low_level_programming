@@ -2,7 +2,7 @@
 
 /**
  *binary_to_uint - transforms the dual digit to the decimal digit
- *@b:the string containing the dual digit
+ *@p:the string containing the dual digit
  *Return: the digit after conversion
  */
 
