@@ -2,13 +2,13 @@
 
 /**
  *print_binary - Outputs binary representation of value.
- *@n: displayed the value in binary.
+ *@f: displayed the value in binary.
  */
 
-void print_binary(unsigned long int n)
+void print_binary(unsigned long int f)
 {
-	if (n > 1)
-		print_binary(n >> 1);
+	if (f > 1)
+		print_binary(f >> 1);
 
-	_putchar((n & 1) + '0');
+	_putchar((f & 1) + '0');
 }

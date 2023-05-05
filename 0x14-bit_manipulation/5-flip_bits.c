@@ -2,22 +2,21 @@
 
 /**
  * flip_bits - Count num of bits that need to be flipped
- * @n: a num
- * @m: a num that flip n
+ * @f: a num
+ * @y: a num that flip n
  *
  * Return: a num of bits to get from n to m
  */
 
-unsigned int flip_bits(unsigned long int n, unsigned long int m)
+unsigned int flip_bits(unsigned long int f, unsigned long int y)
 {
-	unsigned long int mma = n ^ m, bts = 0;
-	int f;
+	unsigned long int wwe = f ^ y, bbit = 0;
 
-	for (f = 0; f < sizeof(unsigned long int) * 8; f++)
+	while (wwe > 0)
 	{
-		if (mma & (1UL << f))
-		bts++;
+		bbit += (wwe & 1);
+		wwe >>= 1;
 	}
 
-	return (bts);
+	return (bbit);
 }
