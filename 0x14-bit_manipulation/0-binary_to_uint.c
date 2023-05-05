@@ -6,23 +6,23 @@
  *Return: the digit after conversion
  */
 
-unsigned int binary_to_uint(const char *b)
+unsigned int binary_to_uint(const char *p)
 {
 	int f = 0;
-	unsigned int dec_val = 0;
+	unsigned int dv = 0;
 
-	if (!b)
+	if (!p)
 		return (0);
 
-	while (b[f])
+	while (p[f])
 	{
-		if (b[f] == '0')
-			dec_val = dec_val * 2;
-		else if (b[f] == '1')
-			dec_val = dec_val * 2 + 1;
+		if (p[f] == '0')
+			dv = dv * 2;
+		else if (p[f] == '1')
+			dv = dv * 2 + 1;
 		else
 			return (0);
 		f++;
 	}
-	return (dec_val);
+	return (dv);
 }
