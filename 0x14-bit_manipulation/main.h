@@ -7,7 +7,7 @@ unsigned int flip_bits(unsigned long int f, unsigned long int y);
 int get_endianness(void);
 int clear_bit(unsigned long int *f, unsigned int dx);
 int _putchar(char x);
-unsigned int binary_to_uint(const char *d);
+unsigned int binary_to_uint(const char *p);
 void print_binary(unsigned long int f);
 
 #endif
