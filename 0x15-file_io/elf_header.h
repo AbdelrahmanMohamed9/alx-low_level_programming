@@ -1,6 +1,7 @@
 #ifndef ELF_HEADER_H
 #define ELF_HEADER_H
 
+
 void print_abi(unsigned char *e_ident);
 void print_osabi(unsigned char *e_ident);
 void print_type(unsigned int e_type, unsigned char *e_ident);
