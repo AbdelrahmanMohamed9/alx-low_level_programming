@@ -10,28 +10,73 @@
 
 
 /**
- * print_abi - Print ABI version of elf header
- * @e_id: the pointer to array containing elf ABI version.
+ * print_osabi - Prints the OS/ABI of an ELF header.
+ * @e_ident: A pointer to an array containing the ELF version.
  */
-void print_abi(unsigned char *e_id)
+void print_osabi(unsigned char *e_ident)
 {
-	printf("  ABI Version:                       %d\n",
-	       e_id[EI_ABIVERSION]);
+	printf("  OS/ABI:                            ");
+
+	switch (e_ident[EI_OSABI])
+	{
+	case ELFOSABI_NONE:
+		printf("UNIX - System V\n");
+		break;
+	case ELFOSABI_HPUX:
+		printf("UNIX - HP-UX\n");
+		break;
+	case ELFOSABI_NETBSD:
+		printf("UNIX - NetBSD\n");
+		break;
+	case ELFOSABI_LINUX:
+		printf("UNIX - Linux\n");
+		break;
+	case ELFOSABI_SOLARIS:
+		printf("UNIX - Solaris\n");
+		break;
+	case ELFOSABI_IRIX:
+		printf("UNIX - IRIX\n");
+		break;
+	case ELFOSABI_FREEBSD:
+		printf("UNIX - FreeBSD\n");
+		break;
+	case ELFOSABI_TRU64:
+		printf("UNIX - TRU64\n");
+		break;
+	case ELFOSABI_ARM:
+		printf("ARM\n");
+		break;
+	case ELFOSABI_STANDALONE:
+		printf("Standalone App\n");
+		break;
+	default:
+		printf("<unknown: %x>\n", e_ident[EI_OSABI]);
+	}
 }
 
 /**
- * print_type - Print type of  elf header.
- * @e_tp:  elf type.
- * @e_id:the pointer to an array containing elf class.
+ * print_abi - Prints the ABI version of an ELF header.
+ * @e_ident: A pointer to an array containing the ELF ABI version.
  */
-void print_type(unsigned int e_tp, unsigned char *e_id)
+void print_abi(unsigned char *e_ident)
 {
-	if (e_id[EI_DATA] == ELFDATA2MSB)
-		e_tp >>= 8;
+	printf("  ABI Version:                       %d\n",
+	       e_ident[EI_ABIVERSION]);
+}
+
+/**
+ * print_type - Prints the type of an ELF header.
+ * @e_type: The ELF type.
+ * @e_ident: A pointer to an array containing the ELF class.
+ */
+void print_type(unsigned int e_type, unsigned char *e_ident)
+{
+	if (e_ident[EI_DATA] == ELFDATA2MSB)
+		e_type >>= 8;
 
 	printf("  Type:                              ");
 
-	switch (e_tp)
+	switch (e_type)
 	{
 	case ET_NONE:
 		printf("NONE (None)\n");
@@ -49,85 +94,45 @@ void print_type(unsigned int e_tp, unsigned char *e_id)
 		printf("CORE (Core file)\n");
 		break;
 	default:
-		printf("<unknown: %x>\n", e_tp);
+		printf("<unknown: %x>\n", e_type);
 	}
 }
 
 /**
- * print_entry - Print entry point of elf header
- * @e_ent: the address of  elf entry point.
- * @e_id:the pointer to  array containing elf class.
+ * print_entry - Prints the entry point of an ELF header.
+ * @e_entry: The address of the ELF entry point.
+ * @e_ident: A pointer to an array containing the ELF class.
  */
-void print_entry(unsigned long int e_ent, unsigned char *e_id)
+void print_entry(unsigned long int e_entry, unsigned char *e_ident)
 {
 	printf("  Entry point address:               ");
 
-	if (e_id[EI_DATA] == ELFDATA2MSB)
+	if (e_ident[EI_DATA] == ELFDATA2MSB)
 	{
-		e_ent = ((e_ent << 8) & 0xFF00FF00) |
-			  ((e_ent >> 8) & 0xFF00FF);
-		e_ent = (e_ent << 16) | (e_ent >> 16);
+		e_entry = ((e_entry << 8) & 0xFF00FF00) |
+			  ((e_entry >> 8) & 0xFF00FF);
+		e_entry = (e_entry << 16) | (e_entry >> 16);
 	}
 
-	if (e_id[EI_CLASS] == ELFCLASS32)
-		printf("%#x\n", (unsigned int)e_ent);
+	if (e_ident[EI_CLASS] == ELFCLASS32)
+		printf("%#x\n", (unsigned int)e_entry);
 
 	else
-		printf("%#lx\n", e_ent);
+		printf("%#lx\n", e_entry);
 }
 
 /**
- * close_elf - Close elf file
- * @ce :the file descriptor of elf file
+ * close_elf - Closes an ELF file.
+ * @elf: The file descriptor of the ELF file.
  *
- * Description: If the file cannot be closed  exit code 98.
+ * Description: If the file cannot be closed - exit code 98.
  */
-void close_elf(int ce)
+void close_elf(int elf)
 {
-	if (close(ce) == -1)
+	if (close(elf) == -1)
 	{
 		dprintf(STDERR_FILENO,
-			"Error: Can't close fd %d\n", ce);
+			"Error: Can't close fd %d\n", elf);
 		exit(98);
 	}
-}
-
-/**
- * main - Display  information contained in the
- *        elf header at the start of  elf file.
- * @argc:  number of arguments supplied to program.
- * @argv: the array of pointers to arguments.
- *
- * Return: 0 on success.
- *
- * Description: If  file isn't  elf File or
- *               function fails  exit code 98.
- */
-int main(int __attribute__((__unused__)) argc, char *argv[])
-{
-	Elf64_Ehdr *hdr;
-	int x, v;
-
-	x = open(argv[1], O_RDONLY);
-	if (x == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
-		exit(98);
-	}
-	hdr = malloc(sizeof(Elf64_Ehdr));
-	if (hdr == NULL)
-	{
-		close_elf(x);
-		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
-		exit(98);
-	}
-	v = read(x, hdr, sizeof(Elf64_Ehdr));
-	if (v == -1)
-	{
-		free(hdr);
-		close_elf(x);
-		dprintf(STDERR_FILENO, "Error: `%s`: No such file\n", argv[1]);
-		exit(98);
-	}
-	return (0);
 }
