@@ -69,7 +69,7 @@ int f6(char *usrn)
  */
 int main(int argc, char **argv)
 {
-	char kg[7];
+	char keygen[7];
 	int ln, cch, vvh;
 	long ap[] = {
 		0x3877445248432d41, 0x42394530534e6c37, 0x4d6e706762695432,
@@ -80,22 +80,22 @@ int main(int argc, char **argv)
 	for (ln = 0; argv[1][ln]; ln++)
 		;
 
-	kg[0] = ((char *)ap)[(ln ^ 59) & 63];
+	keygen[0] = ((char *)ap)[(ln ^ 59) & 63];
 	cch = 0;
 	for (vvh = 0; vvh < ln; vvh++)
 		cch = cch + argv[1][vvh];
 
-	kg[1] = ((char *)ap)[(cch ^ 79) & 63];
+	keygen[1] = ((char *)ap)[(cch ^ 79) & 63];
 	cch = 1;
 	for (vvh = 0; vvh < ln; vvh++)
 		cch = argv[1][vvh] * cch;
 
-	kg[2] = ((char *)ap)[(cch ^ 85) & 63];
-	kg[3] = ((char *)ap)[f4(argv[1], ln)];
-	kg[4] = ((char *)ap)[f5(argv[1], ln)];
-	kg[5] = ((char *)ap)[f6(argv[1])];
-	kg[6] = '\0';
-	for (cch = 0; kg[cch]; cch++)
-		printf("%c", kg[cch]);
+	keygen[2] = ((char *)ap)[(cch ^ 85) & 63];
+	keygen[3] = ((char *)ap)[f4(argv[1], ln)];
+	keygen[4] = ((char *)ap)[f5(argv[1], ln)];
+	keygen[5] = ((char *)ap)[f6(argv[1])];
+	keygen[6] = '\0';
+	for (cch = 0; keygen[cch]; cch++)
+		printf("%c", keygen[cch]);
 	return (0);
 }
