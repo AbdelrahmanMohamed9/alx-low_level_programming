@@ -15,20 +15,20 @@ dlistint_t *add_dnodeint_end(dlistint_t **head, const int n)
 	if (!nw_node)
 		return (0);
 
-	nw_node->i = n;
-	nw_node->nxt = NULL;
+	nw_node->n = n;
+	nw_node->next = NULL;
 	if (!*head)
 	{
 		*head = nw_node;
-		nw_node->prv = NULL;
+		nw_node->prev = NULL;
 	}
 	else
 	{
 		temp = *head;
-		while (temp->nxt)
-			temp = temp->nxt;
-		temp->nxt = nw_node;
-		nw_node->prv = temp;
+		while (temp->next)
+			temp = temp->next;
+		temp->next = nw_node;
+		nw_node->prev = temp;
 	}
 	return (nw_node);
 }

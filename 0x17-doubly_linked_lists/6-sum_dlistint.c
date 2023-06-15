@@ -11,13 +11,13 @@ int sum_dlistint(dlistint_t *head)
 
 	if (head)
 	{
-		while (head->prv)
-			head = head->prv;
+		while (head->prev)
+			head = head->prev;
 
 		while (head)
 		{
-			total += head->i;
-			head = head->nxt;
+			total += head->n;
+			head = head->next;
 		}
 	}
 	return (total);

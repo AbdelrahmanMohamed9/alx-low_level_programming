@@ -20,7 +20,7 @@ dlistint_t *get_dnodeint_at_index(dlistint_t *head, unsigned int index)
 		if (index == 0)
 			return (temp);
 
-		temp = temp->nxt;
+		temp = temp->next;
 		if (n == (index - 1) && index != 0)
 			return (temp);
 	}
