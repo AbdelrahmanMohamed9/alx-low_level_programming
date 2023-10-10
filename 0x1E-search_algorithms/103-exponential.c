@@ -1,21 +1,21 @@
 #include "search_algos.h"
 
 /**
- * _bsearch - search for the value in the sorted array
- *            of integers using binary search.
+ * _bsearch - Search for a value in a sorted array
+ *            of integers using binary search
  *
- * @array: A pointer to the first element of the array to search.
- * @prev: A starting index of the [sub]array to search.
- * @next: A ending index of the [sub]array to search.
- * @value: A value to search for
+ * @array: a pointer to the first element of the array to search
+ * @prev: the starting index of the [sub]array to search
+ * @next: the ending index of the [sub]array to search
+ * @value: the value to search for
  * Return: -1 - if the value is not present or the array is NULL
- *         the index where the value is located - otherwise.
+ *         the index where the value is located - otherwise
  *
- * Description: Print A [sub]array being searched after each change.
+ * Description: Print the [sub]array being searched after each change
  */
 int _bsearch(int *array, size_t prev, size_t next, int value)
 {
-	size_t n;
+	size_t i;
 
 	if (!array)
 		return (-1);
@@ -23,45 +23,45 @@ int _bsearch(int *array, size_t prev, size_t next, int value)
 	while (next >= prev)
 	{
 		printf("Searching in array: ");
-		for (n = prev; n < next; n++)
-			printf("%d, ", array[n]);
-		printf("%d\n", array[n]);
+		for (i = prev; i < next; i++)
+			printf("%d, ", array[i]);
+		printf("%d\n", array[i]);
 
-		n = prev + (next - prev) / 2;
-		if (array[n] == value)
-			return (n);
-		if (array[n] > value)
-			next = n - 1;
+		i = prev + (next - prev) / 2;
+		if (array[i] == value)
+			return (i);
+		if (array[i] > value)
+			next = i - 1;
 		else
-			prev = n + 1;
+			prev = i + 1;
 	}
 	return (-1);
 }
 
 /**
- * exponential_search - search for the value in the sorted array
- *                      of integers using exponential search.
+ * exponential_search - Search for a value in a sorted array
+ *                      of integers using exponential search
  *
- * @array: A pointer to the first element of the array to search.
- * @size: A number of elements in the array.
- * @value: A value to search for.
+ * @array: a pointer to the first element of the array to search
+ * @size: the number of elements in the array
+ * @value: the value to search for
  * Return: -1 - If the value is not present or the array is NULL
- *         the index where the value is located - otherwise.
+ *         the index where the value is located - otherwise
  *
- * Description: print a value every time it is compared in the array.
+ * Description: Print a value every time it is compared in the array
  */
 int exponential_search(int *array, size_t size, int value)
 {
-	size_t n = 0, nxt;
+	size_t i = 0, next;
 
 	if (!array)
 		return (-1);
 
 	if (array[0] != value)
-		for (n = 1; n < size && array[n] <= value; n *= 2)
-			printf("Value checked array[%ld] = [%d]\n", n, array[n]);
+		for (i = 1; i < size && array[i] <= value; i *= 2)
+			printf("Value checked array[%ld] = [%d]\n", i, array[i]);
 
-	next = n < size ? n : size - 1;
-	printf("Value found between indexes [%ld] and [%ld]\n", n / 2, nxt);
-	return (_bsearch(array, n / 2, nxt, value));
+	next = i < size ? i : size - 1;
+	printf("Value found between indexes [%ld] and [%ld]\n", i / 2, next);
+	return (_bsearch(array, i / 2, next, value));
 }
